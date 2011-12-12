@@ -10,10 +10,6 @@ import android.content.Intent;
 
 import com.mobilenepal.hackathon1.HelloSarkar.database.HelloSarkarDbAdapter;
 
-/**
- * @author gyanu
- * 
- */
 public class Alert {
 	static Activity context;
 	private String message;

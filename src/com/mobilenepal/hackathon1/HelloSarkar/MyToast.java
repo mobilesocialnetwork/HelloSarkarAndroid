@@ -13,10 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-/**
- * @author gyanu
- * 
- */
 public class MyToast {
 	static Activity context;
 	int condition;

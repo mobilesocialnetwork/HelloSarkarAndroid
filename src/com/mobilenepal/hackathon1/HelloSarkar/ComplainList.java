@@ -13,10 +13,6 @@ import android.widget.ListView;
 
 import com.mobilenepal.hackathon1.HelloSarkar.database.HelloSarkarDbAdapter;
 
-/**
- * @author gyanu
- *
- */
 public class ComplainList extends ListActivity{
 	HelloSarkarDbAdapter sarkarAdapter;
 	protected void onCreate(Bundle savedInstanceState) {

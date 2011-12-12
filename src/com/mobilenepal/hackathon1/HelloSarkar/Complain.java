@@ -14,11 +14,6 @@ import android.util.Log;
 
 import com.mobilenepal.hackathon1.HelloSarkar.database.HelloSarkarDbAdapter;
 
-/**
- * @author gyanu
- *
- */
-
 public class Complain {
 	//local and server id
 	private long localId;

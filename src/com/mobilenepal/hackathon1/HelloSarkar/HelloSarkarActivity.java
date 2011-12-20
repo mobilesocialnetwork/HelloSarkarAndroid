@@ -1,6 +1,5 @@
 package com.mobilenepal.hackathon1.HelloSarkar;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -11,11 +10,8 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
@@ -50,40 +46,25 @@ public class HelloSarkarActivity extends Activity {
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
       
-        setContentView(R.layout.main);        
-        initialize();
-        if(HaveNetworkConnection()){
-			Log.d("INTERNET_CONNECITON", "CONNNECTION SUCCESSFUL");
-        } else {
-        	
-        	errortoast.setMessage("Please enable wifi");
-        	errortoast.displayToast();
-        	Log.d("INTERNET_CONNECITON", "CONNNECTION Failed");
-        }
+        setContentView(R.layout.complainform);        
+        initialize();    
 
         locManager = (LocationManager) HelloSarkarActivity.this.getSystemService(Context.LOCATION_SERVICE);
-//        List<String> providers=locManager.getAllProviders();
-//    	int i=0;
-//    	for(String provider:providers){
-//    		Log.i("\nprovider"+i++, provider);
-//    	}
-    	Criteria criteria=new Criteria();
+       	Criteria criteria=new Criteria();
     	criteria.setAccuracy(2);
-    //	criteria.setSpeedAccuracy(2);
+  //  	criteria.setSpeedAccuracy(2);
     	criteria.setPowerRequirement(2);
-    //	criteria.setHorizontalAccuracy(2);
-    //	bestProvider=locManager.getBestProvider(criteria, false);
+   // 	criteria.setHorizontalAccuracy(2);
+    	bestProvider=locManager.getBestProvider(criteria, false);
     	locationListener=new MyLocationListener();    
-    	location=locManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        if(location == null){
-        	locManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+    	location=locManager.getLastKnownLocation(bestProvider);
+        if(location == null){        	
+        	locManager.requestLocationUpdates(bestProvider, 0, 0, locationListener);        	
         }
     }
     
 protected void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-	//	saveState();
-//		outState.putSerializable(HelloSarkarDbAdapter.KEY_ROWID, mRowId);
+		super.onSaveInstanceState(outState);	
 	}
 
 
@@ -92,8 +73,7 @@ protected void onSaveInstanceState(Bundle outState) {
 		tvAdd = (TextView) findViewById(R.id.tvAdd);
 		tvComplain = (TextView) findViewById(R.id.tvComplain);
 		tvDistrict = (TextView) findViewById(R.id.tvDistrict);
-	//	dpTime = (DatePicker) findViewById(R.id.dpTime);
-		
+			
 		etName = (EditText) findViewById(R.id.etName);
 		etAdd = (EditText) findViewById(R.id.etAdd);
 		etComplain = (EditText) findViewById(R.id.etComplain);
@@ -101,10 +81,8 @@ protected void onSaveInstanceState(Bundle outState) {
 		spType = (Spinner) findViewById(R.id.spType);
 		spDistrict = (Spinner) findViewById(R.id.spDistrict);
 		
-	//	bSubmit =(Button) findViewById(R.id.bSubmit);
 		bSubmit =(Button) findViewById(R.id.postButton);
 
-//		dpTime = (DatePicker) findViewById(R.id.dpTime);
 		todaysDate=(TextView)findViewById(R.id.currentdate);
 		Date currentDate = new Date(System.currentTimeMillis());
 		String today= (currentDate.getYear()+1900)+"-"+(currentDate.getMonth()+1)+"-"+Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
@@ -138,48 +116,38 @@ protected void onSaveInstanceState(Bundle outState) {
 	public void postComplainSubmit(View view){
 		//validation form fields;
 		Complain complain=new Complain(this.getApplicationContext());
-		ArrayList<String> errors=new ArrayList<String>();
+		boolean valid=true;
+		
 		if(TextUtils.isEmpty(etName.getText().toString())){
-			errors.add("Please enter Name of Person");			
+			valid=false;			
 		}else{
 			complain.setName(etName.getText().toString());
 		}
 		if(TextUtils.isEmpty(etAdd.getText())){
-			errors.add("Please enter complain details");			
+			valid=false;			
 		}else{
 			complain.setAddress(etAdd.getText().toString());
 		}
 		if(TextUtils.isEmpty(etComplain.getText().toString())){
-			errors.add("Please enter complaint");
+			valid=false;
 		}else{
 			complain.setComplain(etComplain.getText().toString());
 		}		
 	
 		
-		if(errors.isEmpty()){	
-			location=locManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-			if(location==null){
-				location=MyLocationListener.location;
-			}
-			complain.setDistrict(spDistrict.getSelectedItem().toString());
-			String[] districts = getResources().getStringArray(R.array.district_name);
-			complain.setComplainType(spType.getSelectedItem().toString());
-			String[] complainType = getResources().getStringArray(R.array.complaint_type);
-			complain.setDate(mDate);
-		
+		if(valid){	
+			location=locManager.getLastKnownLocation(bestProvider);
 			if(location != null){
 				complain.setGps(location.getLatitude()+","+location.getLongitude());
-				
-				 /*******
-				  * display toast only for developer test
-				  * ******/
-			//	 successtoast.setMessage(location.getLatitude()+","+location.getLongitude());
-		    //     successtoast.displayToast();  
 			}else{
-				complain.setGps("unavailable");				
+				complain.setGps("unavailable");	
 			}
-			 complain.setPostParameters(complain,this.getApplicationContext());
+			complain.setDistrict(spDistrict.getSelectedItem().toString());
+			complain.setComplainType(spType.getSelectedItem().toString());			
+			complain.setDate(mDate);		
+		    complain.setPostParameters(complain,this.getApplicationContext());
 			
+		    if(MenuActivity.availableConnection=true){
            	try {
 				String response = CustomHttpClient.executeHttpPost("http://apps.mobilenepal.net/hellosarkar/public/complain/receive", complain.getPostParameters());
 				complain.setServerId(response);
@@ -194,17 +162,17 @@ protected void onSaveInstanceState(Bundle outState) {
 				Intent i=new Intent(Alert.context,MenuActivity.class);
 				Alert.context.startActivity(i);
 				
-				} catch (Exception e) {
-					
-				Alert alert=new Alert(this,"Do you want localy save your complain","No Internet Connection",complain);
-				alert.displayDialog();		
-			}
+				} catch (Exception e) {					
+				  Alert alert=new Alert(this,"Complain couldnot be Post at the moment.Do you want to save your complain on local.","Error on posting",complain);
+				  alert.displayDialog();		
+			      }
+		    }else{
+		    	Alert alert=new Alert(this,"Do you want localy save your complain","No Internet Connection",complain);
+				alert.displayDialog();
+		    }
 			
-		}else{
-			String error="";
-			for(int i=0;i<errors.size();i++)
-				error+=errors.get(i)+"\n";
-			errortoast.setMessage( error);
+		}else{			
+			errortoast.setMessage( "Fields marked with asterisk(*) are mandatory");
 			errortoast.displayToast();
 			
 		}
@@ -222,7 +190,6 @@ protected void onSaveInstanceState(Bundle outState) {
 	@Override
 	protected void onPause() {
 		super.onPause();
-	//	populateFields();
 		locManager.removeUpdates(locationListener);
 	}
 	
@@ -240,25 +207,5 @@ protected void onSaveInstanceState(Bundle outState) {
                 }
             	break;
         }
-	}
-
-	private boolean HaveNetworkConnection()
-	{
-		boolean HaveConnectedWifi = false;
-		boolean HaveConnectedMobile = false;
-
-		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo[] netInfo = cm.getAllNetworkInfo();
-		for (NetworkInfo ni : netInfo)
-		{
-			if (ni.getTypeName().equalsIgnoreCase("WIFI"))
-				if (ni.isConnected())
-					HaveConnectedWifi = true;
-			if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
-				if (ni.isConnected())
-					HaveConnectedMobile = true;
-		}
-		return HaveConnectedWifi || HaveConnectedMobile;
-	}
-		
+	}		
 }

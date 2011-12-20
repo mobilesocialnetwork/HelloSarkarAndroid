@@ -5,6 +5,7 @@
   android:layout_height="wrap_content"
   android:orientation="vertical"
   android:layout_gravity="center_horizontal"
+  android:background="#ddecef"
   android:padding="20dp">
   <DatePicker
                 android:id="@+id/datepick"
@@ -13,7 +14,8 @@
                 />
   <Button
   	android:id="@+id/btnDone"
-  	android:layout_width="150dp"
+  	android:layout_marginTop="10dp"
+  	android:layout_width="fill_parent"
   	android:layout_height="wrap_content"
 	android:text="ok" 
 	android:layout_gravity="center_horizontal" >

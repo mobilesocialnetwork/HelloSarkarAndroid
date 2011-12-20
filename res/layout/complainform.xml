@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent" android:layout_height="fill_parent"
-	android:scrollbars="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/linear" >
+<ScrollView  android:layout_width="fill_parent" android:layout_height="fill_parent"
+     	android:scrollbars="vertical">
 
-	<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-		android:layout_width="fill_parent" android:layout_height="fill_parent">
+<!-- 	<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android" -->
+<!-- 		android:layout_width="fill_parent" android:layout_height="fill_parent"> -->
 
-		<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-			style="@style/table">
+		<TableLayout 	style="@style/table" android:layout_width="fill_parent" android:layout_height="wrap_content"
+		  android:layout_marginTop="65dip"
+		  android:layout_marginBottom="20dip" >
 
 			<TableRow style="@style/row" android:layout_gravity="left"
 				android:gravity="center_vertical">
@@ -85,19 +87,53 @@
 
 			</TableRow>
 
-			<TableRow style="@style/row">
+        <ScrollView
+				      android:layout_width="fill_parent"
+				      android:layout_height="100dip"
+				      android:layout_gravity="center_vertical"
+				      android:scrollbars="vertical" >
+
+			<TableRow style="@style/row">			     
 
 				<TextView android:id="@+id/tvComplain"
 					android:layout_width="wrap_content" android:layout_height="wrap_content"
 					android:layout_gravity="left|center_vertical" android:textColor="#054950"
-					android:text="Complain *" />
+					android:textAppearance="?android:attr/textAppearanceMedium" 
+					android:text="Complain *      " />				 
 
 				<EditText android:id="@+id/etComplain"
-					android:layout_width="match_parent" android:layout_height="150dip"
+					android:layout_width="match_parent" android:layout_height="100dip"
 					android:inputType="textMultiLine" android:gravity="top"
 					android:layout_alignParentRight="true">
 				</EditText>
+				
 			</TableRow>
+			</ScrollView>
+			
+    <TableRow style="@style/row" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#ddecef"
+            android:text="Detail Address *"
+            android:textColor="#ddecef"
+            android:textAppearance="?android:attr/textAppearanceMedium" 
+             />
+
+        <Button
+            android:id="@+id/postButton"
+            android:layout_width="match_parent"
+            android:layout_height="35dip"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/buttonred"
+            android:onClick="postComplainSubmit"
+            android:text="Post"
+            android:textColor="#fff" >
+        </Button>
+    </TableRow>
 		</TableLayout>
-	</HorizontalScrollView>
+<!-- 	</HorizontalScrollView> -->
 </ScrollView>
+</LinearLayout>

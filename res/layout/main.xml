@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/linear" 
-     >
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="wrap_content"
+	android:paddingTop="15dp" android:paddingBottom="15dp"
+	android:scrollbars="vertical">
 
     <include layout="@layout/complainform"  android:layout_width="wrap_content" android:layout_height="wrap_content"/>
     <include layout="@layout/postbutton"  android:layout_width="match_parent" android:layout_height="wrap_content"/>
       
-</LinearLayout>
+</ScrollView>

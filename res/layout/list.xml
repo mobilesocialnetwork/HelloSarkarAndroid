@@ -2,6 +2,6 @@
 <LinearLayout style="@style/linear" xmlns:android="http://schemas.android.com/apk/res/android">
 <ListView style="@style/listextracted" xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_height="wrap_content" android:layout_width="match_parent"
-	android:id="@+id/listView" ></ListView>
+	android:id="@+id/list" ></ListView>
 </LinearLayout>
 

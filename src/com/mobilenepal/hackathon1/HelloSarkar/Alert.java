@@ -42,7 +42,7 @@ public class Alert {
 								public void onClick(DialogInterface dialog,
 										int POSITIVE_BUTTON) {
 									 complain.setPostParameters(complain,Alert.context);
-										
+										if(MenuActivity.availableConnection){
 							           	try {
 											String response = CustomHttpClient.executeHttpPost("http://apps.mobilenepal.net/hellosarkar/public/complain/receive", complain.getPostParameters());
 											complain.setServerId(response);
@@ -59,10 +59,14 @@ public class Alert {
   							    				Alert.context.startActivity(i);
 											
 							           	     }catch(Exception e){
-							           	    	 errorToast.setMessage("Internet connection unavailable");
+							           	    	 errorToast.setMessage("Complain couldnot be saved at the moment.Please try later");
 							           		     errorToast.displayToast();
 											
 							                 	}
+										}else{
+											errorToast.setMessage("Internet connection unavailable");
+						           		    errorToast.displayToast();
+										}
 								   }
 							})
 					.setNegativeButton("Discard",

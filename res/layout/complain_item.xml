@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/linear"
+    android:layout_height="wrap_content" >
+
+ <TableLayout 
+        style="@style/table"
+        android:layout_height="wrap_content" >
+
+        <TableRow
+            style="@style/row"
+            android:layout_gravity="left"
+            android:gravity="center_vertical" >
+
+            <TableLayout
+                style="@style/table"
+                android:layout_height="wrap_content" >
+
+                <TableRow
+                    style="@style/item"
+                    android:layout_gravity="left"
+                    android:gravity="center_vertical" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Status :"
+                        android:textColor="#00aa00" />
+
+                    <TextView
+                        android:id="@+id/statusValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Status Value"
+                        />
+                </TableRow>
+
+                <TableRow
+                    style="@style/item"
+                    android:layout_gravity="left"
+                    android:gravity="center_vertical" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Date :"
+                        android:textColor="#00aa00" />
+
+                    <TextView
+                        android:id="@+id/dateValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="date value"
+                        />
+                </TableRow>
+            </TableLayout>
+
+            <TableLayout
+                style="@style/table"
+                android:layout_height="wrap_content" >
+
+                  <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Type:"
+                        android:textColor="#00aa00" />
+                     
+                    <TextView
+                        android:id="@+id/typeValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Type Value"
+                        />                
+            </TableLayout>
+        </TableRow>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Complain:"
+            android:textColor="#00aa00" 
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            />
+
+        <TextView
+            android:id="@+id/complainValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"            
+            android:minHeight="50dp"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+    </TableLayout>
+
+</LinearLayout>

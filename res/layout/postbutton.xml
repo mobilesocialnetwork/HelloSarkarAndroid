@@ -12,6 +12,7 @@
             android:background="#ddecef"
             android:text="Detail Address *"
             android:textColor="#ddecef"
+            android:textAppearance="?android:attr/textAppearanceMedium" 
              />
 
         <Button

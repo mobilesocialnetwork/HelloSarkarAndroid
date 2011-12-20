@@ -12,8 +12,8 @@
 	</style>
 	<style name="table">
 		<item name="android:layout_width">fill_parent</item>
-		<item name="android:layout_height">fill_parent</item>
-		<item name="android:layout_gravity">center</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:layout_gravity">center</item>		
 		<item name="android:stretchColumns">1</item>
 		<item name="android:background">#ddecef</item>
 	</style>
@@ -35,5 +35,10 @@
 		<item name="android:cacheColorHint">#00000000</item>
 		<item name="android:paddingBottom">4px</item>
 		<item name="android:paddingTop">4px</item>
+	</style>
+	<style name="item">
+		<item name="android:layout_width">fill_parent</item>
+		<item name="android:layout_height">fill_parent</item>
+		<item name="android:background">#ddecef</item>
 	</style>
 </resources>

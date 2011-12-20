@@ -1,23 +1,33 @@
 package com.mobilenepal.hackathon1.HelloSarkar;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-
-import com.mobilenepal.hackathon1.HelloSarkar.database.HelloSarkarDbAdapter;
 
 public class MenuActivity extends Activity{
 	
-	HelloSarkarDbAdapter sarkarAdapter;
+	static boolean availableConnection=false;
+	MyToast errortoast=new MyToast(0,this);
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.menu);
+		  if(HaveNetworkConnection()){
+	        	availableConnection=true;
+				Log.d("INTERNET_CONNECITON", "CONNNECTION SUCCESSFUL");
+		        
+	        } else {	        	
+	        	errortoast.setMessage("Please enable wifi");
+	        	errortoast.displayToast();
+	        	Log.d("INTERNET_CONNECITON", "CONNNECTION Failed");
+	        }
 	}
 	
 	public void  makeComplainClick(View view) {
@@ -26,42 +36,26 @@ public class MenuActivity extends Activity{
 	}
 	
 	public void  listComplainClick(View view) {
-		sarkarAdapter=new HelloSarkarDbAdapter(this);
-		sarkarAdapter.open();
-		Cursor cursor=sarkarAdapter.fetchAllComplains();		
-		
-		ArrayList<String> results = new ArrayList<String>();		
-		if (cursor != null ) {
-    		if  (cursor.moveToFirst()) {
-    			do {
-    				Complain complain=new Complain(cursor,this.getApplicationContext());  
-    				String detail="";
-    				if(complain.getServerId()==null){
-    					detail="\nStatus: Not Posted";
-    				}else{
-    					detail="\nStatus: Posted";
-    				}
-    				try {
-						detail+="\nComplain Type: "+complain.getMyXmlCode(2, complain.getComplainType(),2);
-					} catch (Exception e) {
-						detail+="\nComplain Type: ";
-					}
-    				if(complain.getComplain().length()>100){
-    					detail+="\nComplain: "+complain.getComplain().substring(0, 100);
-    				}else{
-    					detail+="\nComplain: "+complain.getComplain();
-    				}
-    				results.add(detail+"\ndate: " + complain.getDate());
-    			}while (cursor.moveToNext());
-    		} 
-    	}
-		sarkarAdapter.close();
-    	
-		Bundle bundle=new Bundle();
-		bundle.putStringArrayList("complainList", results);
 		Intent i=new Intent(this,ComplainList.class);
-		i.putExtras(bundle);
-		startActivity(i);   
+		startActivity(i);  
 
 }
+	
+	private boolean HaveNetworkConnection(){
+		boolean HaveConnectedWifi = false;
+		boolean HaveConnectedMobile = false;
+
+		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo[] netInfo = cm.getAllNetworkInfo();
+		for (NetworkInfo ni : netInfo)
+		{
+			if (ni.getTypeName().equalsIgnoreCase("WIFI"))
+				if (ni.isConnected())
+					HaveConnectedWifi = true;
+			if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
+				if (ni.isConnected())
+					HaveConnectedMobile = true;
+		}
+		return HaveConnectedWifi || HaveConnectedMobile;
+	}
 }
